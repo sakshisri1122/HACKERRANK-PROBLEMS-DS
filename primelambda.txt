@@ -1,0 +1,27 @@
+import java.util.*;
+import java.util.stream.*;
+
+public class PrimeLambda 
+{
+public static void main(String[] args) 
+{
+ List<Integer> generate = PrimeLambda.generate(10);
+ System.out.println(generate);
+}
+ public static List<Integer> generate(int ser) 
+{
+ Set<Integer> set = new TreeSet<>();
+ return Stream.iterate(1, j -> ++j)
+ .filter(j -> j %2 != 0)  
+ .filter(j -> {
+  set.add(j);
+  return 0 == set.stream()
+  .filter(p -> p != 1)
+  .filter(p -> !Objects.equals(p, j))
+  .filter(p -> j % p == 0)
+  .count();
+   })
+  .limit(ser)
+  .collect(Collectors.toList());
+   }
+}
